@@ -3,27 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SiteCraft AI – Website Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>SiteCraft AI – Success</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+    a.button {
+      display: inline-block;
+      margin: 1rem;
+      padding: 1rem 2rem;
+      background: #00d2ff;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    iframe {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 800px;
+      height: 600px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>⚡ SiteCraft AI</h1>
-    <p>Describe the website you want below. We'll build it for you. 👇</p>
+  <h1>🎉 Your Site is Live!</h1>
+  <p>We've successfully deployed your AI-powered site to Vercel.</p>
+  <a id="liveLink" class="button" target="_blank">🌍 View on Vercel</a>
+  <a href="https://sitecraft-frontend.onrender.com" class="button">🔁 Generate Another</a>
 
-    <textarea id="userInput" placeholder="e.g., A modern portfolio site for a freelance designer with a pastel theme..."></textarea>
-    <button id="generateBtn">Generate Website</button>
+  <iframe id="previewFrame"></iframe>
 
-    <div id="progressBar" style="display: none;">
-      <div id="progressBarFill"></div>
-    </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const url = params.get("url");
 
-    <div id="output"></div>
-
-    <iframe id="previewFrame"></iframe>
-    <button id="downloadBtn">⬇️ Download Website</button>
-  </div>
-
-  <script src="script.js"></script>
+    if (url) {
+      document.getElementById("liveLink").href = url;
+      document.getElementById("liveLink").textContent = "🌍 View Site Live";
+      document.getElementById("previewFrame").src = url;
+    } else {
+      document.body.innerHTML = "<h2>❌ No deployment URL found.</h2><a href='https://sitecraft-frontend.onrender.com' class='button'>Try Again</a>";
+    }
+  </script>
 </body>
 </html>
