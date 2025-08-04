@@ -1,57 +1,70 @@
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SiteCraft AI – Success</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
-    a.button {
-      display: inline-block;
-      margin: 1rem;
-      padding: 1rem 2rem;
-      background: #00d2ff;
-      color: #000;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-    iframe {
-      margin-top: 2rem;
-      width: 100%;
-      max-width: 800px;
-      height: 600px;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
-  </style>
+    <title>Drone Snapshots | Capturing Moments From Above</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .hero {
+            background: url("https://oaidalleapiprodscus.blob.core.windows.net/private/org-8ZGXKv5ObNNsFkj4A5DVyhdi/user-PsoBOmQAUti1kIv3b1CNlys7/img-HytTfaTtxNzu97DowqrhSxn9.png?st=2025-08-04T15%3A20%3A45Z&se=2025-08-04T17%3A20%3A45Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-04T15%3A47%3A54Z&ske=2025-08-05T15%3A47%3A54Z&sks=b&skv=2024-08-04&sig=yd%2B91QSFCFBbuDO37d9DYf8HrrySaJnkBv25CyDAiMU%3D") no-repeat center center / cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.6);
+        }
+        .hero h1 {
+            font-size: 3em;
+        }
+        .section {
+            padding: 50px;
+            color: #333;
+            text-align: center;
+            border-top: 3px solid #ddd;
+            background: linear-gradient(to bottom right, #fff, #eee);
+        }
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-  <h1>🎉 Your Site is Live!</h1>
-  <p>We've successfully deployed your AI-powered site to Vercel.</p>
-  <a id="liveLink" class="button" target="_blank">🌍 View on Vercel</a>
-  <a href="https://sitecraft-frontend.onrender.com" class="button">🔁 Generate Another</a>
-
-  <iframe id="previewFrame"></iframe>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const url = params.get("url");
-
-    if (url) {
-      document.getElementById("liveLink").href = url;
-      document.getElementById("liveLink").textContent = "🌍 View Site Live";
-      document.getElementById("previewFrame").src = url;
-    } else {
-      document.body.innerHTML = "<h2>❌ No deployment URL found.</h2><a href='https://sitecraft-frontend.onrender.com' class='button'>Try Again</a>";
-    }
-  </script>
+    <div class="hero">
+        <h1>Drone Snapshots</h1>
+    </div>
+    <div class="section">
+        <h2>About Us</h2>
+        <p>Drone Snapshots, capturing your special moments from an unique aerial perspective.</p>
+    </div>
+    <div class="section">
+        <h2>Our Services</h2>
+        <p>From weddings to real estate, our drone photography services provide breathtaking aerial views.</p>
+    </div>
+    <div class="section">
+        <h2>Gallery</h2>
+        <p>Check out our portfolio to see the stunning views we've captured with our drones.</p>
+    </div>
+    <div class="section">
+        <h2>Bookings</h2>
+        <p>Contact us to book our services for your next event or project.</p>
+    </div>
+    <div class="section">
+        <h2>Testimonials</h2>
+        <p>Don't just take our word for it - see what our clients have to say about our work.</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 Drone Snapshots. All rights reserved.</p>
+    </div>
 </body>
 </html>
+```
+This code creates a one-page website with a full-width hero section with the provided image and a creative title. It has 5 themed content sections with soft gradients and simple borders. The typography is clean, and there are clear spaces between sections for visual clarity. It concludes with a simple footer.
