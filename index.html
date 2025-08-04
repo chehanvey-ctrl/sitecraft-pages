@@ -1,86 +1,79 @@
+Here's the HTML & CSS code for a one-page website for a mechanic company called Hot Wheels:
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
-
-    .hero {
-        background-image: url('https://oaidalleapiprodscus.blob.core.windows.net/private/org-8ZGXKv5ObNNsFkj4A5DVyhdi/user-PsoBOmQAUti1kIv3b1CNlys7/img-IEihQdyS4JZ9iAx1HSCFUQhh.png?st=2025-08-04T10%3A06%3A17Z&se=2025-08-04T12%3A06%3A17Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-04T09%3A11%3A13Z&ske=2025-08-05T09%3A11%3A13Z&sks=b&skv=2024-08-04&sig=rvco9pklH91CcDdoVtGz4AvcLaPkZ3DJVba0%2B3j7uxQ%3D');
-        height: 100vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-    }
-
-    .hero-title {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        color: white;
-        font-size: 2em;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .content-section {
-        padding: 50px;
-        color: #333;
-    }
-
-    .content-section:nth-child(even) {
-        background: #e6eeff;
-        border-left: 5px solid #333;
-        border-right: 5px solid #333;
-    }
-
-    .content-section:nth-child(odd) {
-        background: #fff;
-        border-left: 5px solid #333;
-        border-right: 5px solid #333;
-    }
-
-    footer {
-        background: #333333;
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-        position: sticky;
-        bottom: 0;
-        width: 100%;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .hero {
+            width: 100%;
+            height: 600px;
+            background: url('https://oaidalleapiprodscus.blob.core.windows.net/private/org-8ZGXKv5ObNNsFkj4A5DVyhdi/user-PsoBOmQAUti1kIv3b1CNlys7/img-tqlopW55GYcQkrerw5qfe32c.png?st=2025-08-04T10%3A19%3A03Z&se=2025-08-04T12%3A19%3A03Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-04T09%3A06%3A00Z&ske=2025-08-05T09%3A06%3A00Z&sks=b&skv=2024-08-04&sig=dOH608aq4kBYAkPzc5h2%2BtOmeOqIMEkcHGuaFaDpOQ0%3D') no-repeat center;
+            background-size: cover;
+            text-align: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .section {
+            padding: 50px 0;
+            text-align: center;
+        }
+        .section:nth-child(even) {
+            background: #e60023;
+            color: white;
+        }
+        .section:nth-child(odd) {
+            background: #ffd700;
+            color: black;
+        }
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
     </style>
 </head>
 <body>
     <div class="hero">
-        <h1 class="hero-title">Luna's Minimalist Design Portfolio</h1>
+        <h1>Hot Wheels Mechanic Service</h1>
     </div>
-    <div class="content-section">
-        <h2>About Luna</h2>
-        <p>Luna is a freelance designer with a minimalist aesthetic. Her designs are characterized by clean lines, simple color palettes, and an overall sense of balance and harmony.</p>
+    <div class="section">
+        <h2>Our Services</h2>
+        <p>We provide a wide range of services including oil change, brake service, and tire replacement.</p>
     </div>
-    <div class="content-section">
-        <h2>Skills</h2>
-        <p>Luna specializes in web design, brand identity, and print design. She is proficient in Adobe Creative Suite, Sketch, Figma, and other design tools.</p>
+    <div class="section">
+        <h2>Quality Assurance</h2>
+        <p>We use only high-quality parts and our mechanics are highly skilled and experienced.</p>
     </div>
-    <div class="content-section">
-        <h2>Portfolio</h2>
-        <p>From designing sleek websites to creating impactful brand identities, Luna's portfolio showcases a wide range of design skills.</p>
+    <div class="section">
+        <h2>Customer Satisfaction</h2>
+        <p>We strive for 100% customer satisfaction and we always go the extra mile to ensure you're happy with our service.</p>
     </div>
-    <div class="content-section">
-        <h2>Testimonials</h2>
-        <p>Over the years, Luna has worked with a diverse group of clients, all of whom have praised her professionalism, creativity, and attention to detail.</p>
+    <div class="section">
+        <h2>Affordable Rates</h2>
+        <p>Our prices are competitive and we offer discounts for repeat customers.</p>
     </div>
-    <div class="content-section">
-        <h2>Contact</h2>
-        <p>To hire Luna for your next design project, get in touch via email or fill out the contact form.</p>
+    <div class="section">
+        <h2>Contact Us</h2>
+        <p>Call us today to book an appointment or to learn more about our services.</p>
     </div>
-    <footer>
-        <p>&copy; 2022 Luna's Design Portfolio. All rights reserved.</p>
-    </footer>
+    <div class="footer">
+        <p>&copy; 2022 Hot Wheels Mechanic Service</p>
+    </div>
 </body>
 </html>
+```
+
+This code creates a one-page website with a full-width hero section featuring the provided image and the title "Hot Wheels Mechanic Service". The page includes five content sections with alternating red and gold backgrounds, with each section describing a different aspect of the mechanic service. The site finishes with a simple black footer.
