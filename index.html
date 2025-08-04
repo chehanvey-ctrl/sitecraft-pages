@@ -1,106 +1,160 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SiteCraft AI Website Generator</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0a0a0a;
-      color: #fff;
       margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #00c9a7, #005b96);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
       padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    textarea {
-      width: 90%;
-      max-width: 600px;
-      height: 120px;
-      padding: 1rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: none;
-      resize: vertical;
-      margin-bottom: 1rem;
-    }
-    select, button {
-      padding: 0.75rem 1.2rem;
-      font-size: 1rem;
-      margin: 0.5rem;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-    }
-    button {
-      background-color: #0070f3;
-      color: white;
-    }
-    iframe {
-      width: 90%;
-      height: 500px;
-      border: 1px solid #333;
-      margin-top: 2rem;
-    }
-    .controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .radio-group {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .radio-group label {
-      font-weight: 500;
-    }
+    }h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+textarea {
+  width: 90%;
+  max-width: 600px;
+  height: 120px;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 1rem;
+  resize: vertical;
+}
+
+button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  background-color: #00ffd5;
+  color: #00303f;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+#progressBar {
+  width: 80%;
+  max-width: 500px;
+  height: 12px;
+  background-color: #00303f;
+  border-radius: 6px;
+  overflow: hidden;
+  display: none;
+  margin-bottom: 1rem;
+}
+
+#progressBarFill {
+  height: 100%;
+  background-color: #00ffd5;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+}
+
+#output {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+iframe {
+  width: 90%;
+  height: 600px;
+  border: 2px solid #00ffd5;
+  border-radius: 10px;
+  background-color: #fff;
+  margin-top: 2rem;
+}
+
+#buyBtn {
+  padding: 1rem 3rem;
+  font-size: 1.3rem;
+  background-color: #fff;
+  color: #00303f;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 2rem;
+  display: none;
+}
+
   </style>
 </head>
 <body>
   <h1>SiteCraft AI</h1>
-  <p>Generate and preview your custom AI website instantly.</p>
+  <p>Describe your dream website. Built in 60 seconds. Preview and go live!.</p>  <textarea id="userInput" placeholder="Describe your website..."></textarea><button id="generateBtn">Generate My Website</button>
 
-  <div class="controls">
-    <textarea id="prompt" placeholder="Enter your website prompt here..."></textarea>
+  <div id="progressBar">
+    <div id="progressBarFill"></div>
+  </div>  <div id="output"></div>
+  <iframe id="previewFrame"></iframe>
+  <button id="buyBtn">Your Live website</button>  <script>
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      const prompt = document.getElementById("userInput").value.trim();
+      const outputDiv = document.getElementById("output");
+      const previewFrame = document.getElementById("previewFrame");
+      const buyBtn = document.getElementById("buyBtn");
+      const progressBar = document.getElementById("progressBar");
+      const progressFill = document.getElementById("progressBarFill");
 
-    <div class="radio-group">
-      <label><input type="radio" name="genType" value="template" checked /> Template</label>
-      <label><input type="radio" name="genType" value="pure" /> Full AI</label>
-    </div>
+      if (!prompt) {
+        outputDiv.innerText = "Please enter a prompt.";
+        return;
+      }
 
-    <button onclick="generate()">Generate Website</button>
-  </div>
+      outputDiv.innerText = "Building your website...";
+      progressBar.style.display = "block";
+      progressFill.style.width = "0%";
+      buyBtn.style.display = "none";
 
-  <iframe id="preview"></iframe>
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress < 95) {
+          progress += Math.random() * 4;
+          progressFill.style.width = `${progress.toFixed(0)}%`;
+        }
+      }, 100);
 
-  <script>
-    async function generate() {
-      const prompt = document.getElementById("prompt").value.trim();
-      const type = document.querySelector('input[name="genType"]:checked').value;
+      try {
+        const response = await fetch("https://sitecraft-backend.onrender.com/generate-pure", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt })
+        });
 
-      if (!prompt) return alert("Please enter a prompt first.");
+        clearInterval(interval);
+        progressFill.style.width = "100%";
 
-      const endpoint = type === "pure"
-        ? "https://sitecraft-backend.onrender.com/generate-pure"
-        : "https://sitecraft-backend.onrender.com/generate";
+        if (!response.ok) throw new Error("Server error while generating site.");
+        const data = await response.json();
 
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
+        if (!data.html) throw new Error("No HTML received.");
 
-      const data = await res.json();
-      document.getElementById("preview").srcdoc = data.html;
-    }
-  </script>
-</body>
+        previewFrame.srcdoc = data.html;
+        outputDiv.innerText = "Website generated. Preview below.";
+        buyBtn.style.display = "inline-block";
+      } catch (err) {
+        clearInterval(interval);
+        progressBar.style.display = "none";
+        outputDiv.innerText = "❌ Error: " + err.message;
+      }
+    });
+  </script></body>
 </html>
