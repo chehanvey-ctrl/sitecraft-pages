@@ -1,66 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Pompey Wickets</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333333;
-        }
-        .hero {
-            background: url('https://oaidalleapiprodscus.blob.core.windows.net/private/org-8ZGXKv5ObNNsFkj4A5DVyhdi/user-PsoBOmQAUti1kIv3b1CNlys7/img-kKlpHgqYrAtvPCTcc1hbYE7P.png?st=2025-08-04T17%3A21%3A49Z&se=2025-08-04T19%3A21%3A49Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-04T08%3A24%3A19Z&ske=2025-08-05T08%3A24%3A19Z&sks=b&skv=2024-08-04&sig=ZzSEfMbvaQymPWXIXWOKTeEmJyaIAsxwYUx4Ry7bOtE%3D') no-repeat center center/cover;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .hero-title {
-            color: #ffffff;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        .content-section {
-            padding: 50px;
-            border: 1px solid #cccccc;
-            background: #f9f9f9;
-            margin: 20px;
-            border-radius: 10px;
-        }
-        .footer {
-            background: #333333;
-            color: #f9f9f9;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SiteCraft AI Website Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    textarea {
+      width: 90%;
+      max-width: 600px;
+      height: 120px;
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      resize: vertical;
+      margin-bottom: 1rem;
+    }
+    select, button {
+      padding: 0.75rem 1.2rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+    button {
+      background-color: #0070f3;
+      color: white;
+    }
+    iframe {
+      width: 90%;
+      height: 500px;
+      border: 1px solid #333;
+      margin-top: 2rem;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .radio-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .radio-group label {
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body>
-    <div class="hero">
-        <h1 class="hero-title">Pompey Wickets</h1>
+  <h1>SiteCraft AI</h1>
+  <p>Generate and preview your custom AI website instantly.</p>
+
+  <div class="controls">
+    <textarea id="prompt" placeholder="Enter your website prompt here..."></textarea>
+
+    <div class="radio-group">
+      <label><input type="radio" name="genType" value="template" checked /> Template</label>
+      <label><input type="radio" name="genType" value="pure" /> Full AI</label>
     </div>
-    <div class="content-section">
-        <h2>About Us</h2>
-        <p>Pompey Wickets is a cricket team based in Portsmouth. We are passionate about the game and strive to bring our best to each match.</p>
-    </div>
-    <div class="content-section">
-        <h2>Our Team</h2>
-        <p>Our team consists of seasoned cricket players from Portsmouth and its surrounding areas. Each member brings unique skills and experiences to the team.</p>
-    </div>
-    <div class="content-section">
-        <h2>Upcoming Matches</h2>
-        <p>We have a series of exciting matches coming up. Stay tuned to our website for updates and match schedules.</p>
-    </div>
-    <div class="content-section">
-        <h2>Join Our Team</h2>
-        <p>If you're passionate about cricket and interested in joining our team, we'd love to hear from you. Contact us for tryouts and more information.</p>
-    </div>
-    <div class="content-section">
-        <h2>Contact Us</h2>
-        <p>For any inquiries or information, feel free to reach out to us. We're always available to interact with our fans and prospective players.</p>
-    </div>
-    <div class="footer">
-        <p>© 2025 Pompey Wickets. All Rights Reserved. Website by Top Web Designer.</p>
-    </div>
+
+    <button onclick="generate()">Generate Website</button>
+  </div>
+
+  <iframe id="preview"></iframe>
+
+  <script>
+    async function generate() {
+      const prompt = document.getElementById("prompt").value.trim();
+      const type = document.querySelector('input[name="genType"]:checked').value;
+
+      if (!prompt) return alert("Please enter a prompt first.");
+
+      const endpoint = type === "pure"
+        ? "https://sitecraft-backend.onrender.com/generate-pure"
+        : "https://sitecraft-backend.onrender.com/generate";
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await res.json();
+      document.getElementById("preview").srcdoc = data.html;
+    }
+  </script>
 </body>
 </html>
