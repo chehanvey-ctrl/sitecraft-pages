@@ -1,75 +1,29 @@
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Seagoe FC Official Website</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .hero {
-            background-image: url('https://oaidalleapiprodscus.blob.core.windows.net/private/org-8ZGXKv5ObNNsFkj4A5DVyhdi/user-PsoBOmQAUti1kIv3b1CNlys7/img-AWHcVqD9iQ8BuxZ8wC3pOf7M.png?st=2025-08-04T10%3A53%3A53Z&se=2025-08-04T12%3A53%3A53Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-03T18%3A34%3A43Z&ske=2025-08-04T18%3A34%3A43Z&sks=b&skv=2024-08-04&sig=SNZN5sMX3vd%2B1lvYRwPDhplObiPm/9UC%2BnRaY6vdqpQ%3D');
-            height: 100vh;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-        .hero h1 {
-            position: relative;
-            font-size: 4em;
-            color: white;
-            text-align: center;
-            padding-top: 20%;
-        }
-        .section {
-            color: white;
-            padding: 50px;
-            border-top: 5px solid #ff0000;
-        }
-        .black {
-            background-color: #000000;
-        }
-        .red {
-            background-color: #ff0000;
-        }
-        .footer {
-            background-color: black;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SiteCraft AI – Website Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="hero">
-        <h1>Seagoe FC</h1>
+  <div class="container">
+    <h1>⚡ SiteCraft AI</h1>
+    <p>Describe the website you want below. We'll build it for you. 👇</p>
+
+    <textarea id="userInput" placeholder="e.g., A modern portfolio site for a freelance designer with a pastel theme..."></textarea>
+    <button id="generateBtn">Generate Website</button>
+
+    <div id="progressBar" style="display: none;">
+      <div id="progressBarFill"></div>
     </div>
-    <div class="section black">
-        <h2>Team News</h2>
-        <p>Stay updated with the latest news and updates from Seagoe FC. Discover player updates, match reports and more.</p>
-    </div>
-    <div class="section red">
-        <h2>About Us</h2>
-        <p>Learn more about the history, values and vision of Seagoe FC. We are more than just a football club. We are a family, a community.</p>
-    </div>
-    <div class="section black">
-        <h2>Trophy Gallery</h2>
-        <p>Experience the success and glory of Seagoe FC through our Trophy Gallery. Each trophy tells a story of determination, teamwork and victory.</p>
-    </div>
-    <div class="footer">
-        <p>&copy; 2022 Seagoe FC. All rights reserved.</p>
-    </div>
+
+    <div id="output"></div>
+
+    <iframe id="previewFrame"></iframe>
+    <button id="downloadBtn">⬇️ Download Website</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
-```
-This code will create a one-page website for Seagoe FC with a full-width hero section, featuring the provided image and the title "Seagoe FC". The website has five content sections with themed backgrounds and visual borders, clean typography, and clear, well-spaced visuals. The footer is simple and contains copyright information. The content includes sections for team news, about us, and a trophy gallery.
