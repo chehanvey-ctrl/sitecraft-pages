@@ -1,174 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SiteCraft AI Website Generator</title>
-  <style>
-    /* --- Base UI (unchanged look & feel) --- */
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #00c9a7, #005b96);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-    h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-    p  { font-size: 1.1rem; text-align: center; max-width: 600px; margin-bottom: 2rem; }
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff;
+}
 
-    textarea {
-      width: 90%; max-width: 600px; height: 120px;
-      padding: 1rem; font-size: 1rem; border-radius: 10px; border: none; margin-bottom: 1rem; resize: vertical;
-      color: #00303f;
-    }
+.hero-image {
+  background-image: url("https://oaidalleapiprodscus.blob.core.windows.net/private/org-8ZGXKv5ObNNsFkj4A5DVyhdi/user-PsoBOmQAUti1kIv3b1CNlys7/img-fRrHuISHMNfknirqCE5qEvAc.png?st=2025-08-09T13%3A14%3A27Z&se=2025-08-09T15%3A14%3A27Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=8eb2c87c-0531-4dab-acb3-b5e2adddce6c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-09T08%3A18%3A45Z&ske=2025-08-10T08%3A18%3A45Z&sks=b&skv=2024-08-04&sig=XrYiXVKU9wF273xBG%2BuMAr%2BSL6DxnqAgCYXezEKqJ9s%3D");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
 
-    #generateBtn {
-      padding: 1rem 2rem; font-size: 1.1rem; background-color: #00ffd5; color: #00303f;
-      border: none; border-radius: 10px; cursor: pointer; margin-bottom: 1rem; font-weight: bold;
-    }
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 3em;
+}
 
-    #progressBar {
-      width: 80%; max-width: 500px; height: 12px; background-color: #00303f; border-radius: 6px;
-      overflow: hidden; display: none; margin: 0.5rem 0 1rem;
-    }
-    #progressBarFill { height: 100%; background-color: #00ffd5; width: 0%; transition: width 0.3s ease-in-out; }
+section {
+  padding: 60px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  background: linear-gradient(to right, #f9f9f9 0%, #fff 100%);
+}
 
-    #output { font-size: 1rem; margin-bottom: 0.5rem; min-height: 1.2em; }
-
-    #previewFrame {
-      width: 90%; height: 600px; border: 2px solid #00ffd5; border-radius: 10px; background-color: #fff; margin-top: 1.2rem;
-    }
-
-    /* --- Small additions: spinner, toast, live link --- */
-    .spinner {
-      display: none;
-      width: 22px; height: 22px;
-      border: 3px solid #ffffff55;
-      border-top-color: #fff;
-      border-radius: 50%;
-      margin-left: 10px;
-      animation: spin 0.8s linear infinite;
-      vertical-align: middle;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .toast {
-      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
-      background: #0d1720; color: #c9fdd7; padding: 10px 14px; border-radius: 10px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.25); display: none; z-index: 9999;
-    }
-
-    .live-link {
-      display: none;
-      margin-top: 12px;
-      font-weight: 700;
-      background: #ffffff;
-      color: #00303f;
-      text-decoration: none;
-      padding: 12px 18px;
-      border-radius: 12px;
-    }
-  </style>
+footer {
+  padding: 20px;
+  text-align: center;
+  background: #333;
+  color: #fff;
+}
+</style>
 </head>
 <body>
-  <h1>SiteCraft AI</h1>
-  <p>Describe your dream website. Built in 60 seconds. Preview and go live!.</p>
 
-  <textarea id="userInput" placeholder="Describe your website..."></textarea>
-
-  <div>
-    <button id="generateBtn">Generate My Website</button>
-    <span id="genSpinner" class="spinner"></span>
+<div class="hero-image">
+  <div class="hero-text">
+    <h1>Bennys Chippy</h1>
+    <p>Serving Happiness in Every Bite</p>
   </div>
+</div>
 
-  <div id="progressBar"><div id="progressBarFill"></div></div>
-  <div id="output"></div>
+<section id="specials">
+  <h2>Today's Specials</h2>
+  <p>Come in and try out our delicious specials, freshly made for you.</p>
+</section>
 
-  <a id="liveLink" class="live-link" target="_blank" rel="noopener">🌍 View Live Site</a>
+<section id="story">
+  <h2>Our Story</h2>
+  <p>Discover how our family-owned chip shop has been serving up happiness for generations.</p>
+</section>
 
-  <iframe id="previewFrame"></iframe>
+<section id="favourites">
+  <h2>Customer Favourites</h2>
+  <p>Explore our customer favourites, from our golden crispy chips to our fresh cod.</p>
+</section>
 
-  <div id="toast" class="toast"></div>
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p>Have a question or want to place an order? Get in touch with us.</p>
+</section>
 
-  <script>
-    const genBtn = document.getElementById("generateBtn");
-    const spinner = document.getElementById("genSpinner");
-    const toast   = document.getElementById("toast");
-    const liveLink = document.getElementById("liveLink");
-    const outputDiv = document.getElementById("output");
-    const previewFrame = document.getElementById("previewFrame");
-    const progressBar = document.getElementById("progressBar");
-    const progressFill = document.getElementById("progressBarFill");
+<footer>
+  <p>&copy; 2025 Bennys Chippy</p>
+</footer>
 
-    function showToast(msg) {
-      toast.textContent = msg;
-      toast.style.display = "block";
-      clearTimeout(showToast.t);
-      showToast.t = setTimeout(() => toast.style.display = "none", 3000);
-    }
-
-    genBtn.addEventListener("click", async () => {
-      const prompt = document.getElementById("userInput").value.trim();
-      if (!prompt) { showToast("Please enter a prompt."); return; }
-
-      // UI: lock + show loading
-      genBtn.disabled = true;
-      spinner.style.display = "inline-block";
-      liveLink.style.display = "none";
-      outputDiv.textContent = "Building your website...";
-      progressBar.style.display = "block";
-      progressFill.style.width = "0%";
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        if (progress < 95) {
-          progress += Math.random() * 3.5;
-          progressFill.style.width = `${progress.toFixed(0)}%`;
-        }
-      }, 100);
-
-      try {
-        // publish endpoint (returns html + live_url)
-        const res = await fetch("https://sitecraft-backend.onrender.com/publish", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt })
-        });
-
-        clearInterval(interval);
-        progressFill.style.width = "100%";
-
-        if (!res.ok) throw new Error(`Server error ${res.status}`);
-        const data = await res.json();
-
-        if (!data || !data.html) throw new Error("No HTML received.");
-        previewFrame.srcdoc = data.html;
-        outputDiv.textContent = "Website generated. Preview below.";
-
-        const liveUrl = data.live_url || data.site_url;
-        if (liveUrl) {
-          liveLink.href = liveUrl;
-          liveLink.style.display = "inline-block";
-          showToast("Your site is live! Opening in a new tab…");
-          setTimeout(() => window.open(liveUrl, "_blank", "noopener"), 350);
-        } else {
-          showToast("Preview ready. Deployment link not returned.");
-        }
-      } catch (err) {
-        clearInterval(interval);
-        progressBar.style.display = "none";
-        outputDiv.textContent = "❌ " + err.message;
-        showToast("Something went wrong. Please try again.");
-        console.error(err);
-      } finally {
-        genBtn.disabled = false;
-        spinner.style.display = "none";
-      }
-    });
-  </script>
 </body>
 </html>
