@@ -16,19 +16,16 @@
       min-height: 100vh;
       padding: 2rem;
     }
-
     h1 {
       font-size: 3rem;
       margin-bottom: 0.5rem;
     }
-
     p {
       font-size: 1.1rem;
       text-align: center;
       max-width: 600px;
       margin-bottom: 2rem;
     }
-
     textarea {
       width: 90%;
       max-width: 600px;
@@ -40,7 +37,6 @@
       margin-bottom: 1rem;
       resize: vertical;
     }
-
     button {
       padding: 1rem 2rem;
       font-size: 1.1rem;
@@ -52,7 +48,6 @@
       margin-bottom: 2rem;
       font-weight: bold;
     }
-
     #progressBar {
       width: 80%;
       max-width: 500px;
@@ -63,19 +58,17 @@
       display: none;
       margin-bottom: 1rem;
     }
-
     #progressBarFill {
       height: 100%;
       background-color: #00ffd5;
       width: 0%;
       transition: width 0.3s ease-in-out;
     }
-
     #output {
       font-size: 1rem;
       margin-bottom: 1rem;
+      min-height: 1.25rem;
     }
-
     iframe {
       width: 90%;
       height: 600px;
@@ -84,7 +77,6 @@
       background-color: #fff;
       margin-top: 2rem;
     }
-
     #buyBtn {
       padding: 1rem 3rem;
       font-size: 1.3rem;
@@ -95,91 +87,119 @@
       cursor: pointer;
       font-weight: bold;
       margin-top: 2rem;
-      display: none;
+      display: none; /* shown after publish */
     }
   </style>
 </head>
 <body>
   <h1>SiteCraft AI</h1>
   <p>Describe your dream website. Built in 60 seconds. Preview and go live!</p>
-  
+
   <textarea id="userInput" placeholder="Describe your website..."></textarea>
   <button id="generateBtn">Generate My Website</button>
 
-  <div id="progressBar">
-    <div id="progressBarFill"></div>
-  </div>
-
+  <div id="progressBar"><div id="progressBarFill"></div></div>
   <div id="output"></div>
+
   <iframe id="previewFrame"></iframe>
   <button id="buyBtn">Your Live Website</button>
 
   <script>
-    document.getElementById("generateBtn").addEventListener("click", async () => {
-      const prompt = document.getElementById("userInput").value.trim();
+    (function () {
+      const generateBtn = document.getElementById("generateBtn");
+      const userInput = document.getElementById("userInput");
       const outputDiv = document.getElementById("output");
       const previewFrame = document.getElementById("previewFrame");
       const buyBtn = document.getElementById("buyBtn");
       const progressBar = document.getElementById("progressBar");
       const progressFill = document.getElementById("progressBarFill");
 
-      if (!prompt) {
-        outputDiv.innerText = "Please enter a prompt.";
-        return;
+      let liveURL = null;
+      let working = false;
+
+      function startProgress() {
+        progressBar.style.display = "block";
+        progressFill.style.width = "0%";
+        let progress = 0;
+        const id = setInterval(() => {
+          if (progress < 95) {
+            progress += Math.random() * 4;
+            progressFill.style.width = `${progress.toFixed(0)}%`;
+          }
+        }, 100);
+        return () => { clearInterval(id); progressFill.style.width = "100%"; };
       }
 
-      outputDiv.innerText = "Building your website...";
-      progressBar.style.display = "block";
-      progressFill.style.width = "0%";
-      buyBtn.style.display = "none";
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        if (progress < 95) {
-          progress += Math.random() * 4;
-          progressFill.style.width = `${progress.toFixed(0)}%`;
+      buyBtn.addEventListener("click", () => {
+        if (!liveURL) {
+          alert("Live site URL not found.");
+          return;
         }
-      }, 100);
+        window.open(liveURL, "_blank", "noopener");
+      });
 
-      try {
-        const response = await fetch("https://sitecraft-backend.onrender.com/generate-pure", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt })
-        });
+      generateBtn.addEventListener("click", async () => {
+        if (working) return;
+        const prompt = userInput.value.trim();
+        if (!prompt) {
+          outputDiv.innerText = "Please enter a prompt.";
+          return;
+        }
 
-        clearInterval(interval);
-        progressFill.style.width = "100%";
+        working = true;
+        generateBtn.disabled = true;
+        outputDiv.innerText = "Building & publishing your website...";
+        buyBtn.style.display = "none";
+        liveURL = null;
 
-        if (!response.ok) throw new Error("Server error while generating site.");
-        const data = await response.json();
-        if (!data.html) throw new Error("No HTML received.");
+        const stopProgress = startProgress();
 
-        previewFrame.srcdoc = data.html;
-        outputDiv.innerText = "Website generated. Preview below.";
-        buyBtn.style.display = "inline-block";
-      } catch (err) {
-        clearInterval(interval);
-        progressBar.style.display = "none";
-        outputDiv.innerText = "❌ Error: " + err.message;
-      }
-    });
+        try {
+          // Call PUBLISH so we always get live_url
+          const response = await fetch("https://sitecraft-backend.onrender.com/publish", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt })
+          });
 
-    // Handle "Your Live Website" button click
-    document.getElementById("buyBtn").addEventListener("click", () => {
-      const frame = document.getElementById("previewFrame");
-      const src = frame?.srcdoc || "";
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(src, "text/html");
-      const canonical = doc.querySelector("link[rel='canonical']");
-      const liveURL = canonical?.href;
+          stopProgress();
 
-      if (liveURL) {
-        window.open(liveURL, "_blank");
-      } else {
-        alert("Live site URL not found.");
-      }
-    });
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`Server error ${response.status}: ${text.slice(0, 200)}`);
+          }
+
+          const contentType = response.headers.get("content-type") || "";
+          if (!contentType.includes("application/json")) {
+            const text = await response.text();
+            throw new Error(`Expected JSON from backend but got: ${text.slice(0, 120)}`);
+          }
+
+          const data = await response.json();
+          if (!data || !data.html) {
+            throw new Error("No HTML received from backend.");
+          }
+
+          // Preview the newly generated site
+          previewFrame.srcdoc = data.html;
+
+          // Save and reveal live URL if present
+          if (data.live_url) {
+            liveURL = data.live_url;
+            buyBtn.style.display = "inline-block";
+          }
+
+          outputDiv.innerText = "Website generated. Preview below.";
+        } catch (err) {
+          progressBar.style.display = "none";
+          outputDiv.innerText = "❌ Error: " + err.message;
+          console.error(err);
+        } finally {
+          working = false;
+          generateBtn.disabled = false;
+        }
+      });
+    })();
   </script>
 </body>
 </html>
