@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SiteCraft AI – Your Site Is Live</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+      margin: 0;
+    }
+    h1 { margin: 0 0 0.5rem; font-size: 2.2rem; }
+    p  { margin: 0 0 1.25rem; opacity: .9; }
+    .actions { margin: 1rem 0 1.5rem; display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
+    a.button {
+      display: inline-block;
+      padding: 0.9rem 1.4rem;
+      background: #00d2ff;
+      color: #00303f;
+      font-weight: 700;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+    .ghost {
+      background: #ffffff;
+    }
+    iframe {
+      margin-top: 1rem;
+      width: min(100%, 1100px);
+      height: 70vh;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      background: #fff;
+    }
+    .note { font-size:.9rem; opacity:.8; margin-top:.75rem; }
+  </style>
+</head>
+<body>
+  <h1>🎉 Your Site Is Live!</h1>
+  <p id="subtitle">We’ve deployed your website successfully.</p>
+
+  <div class="actions">
+    <a id="liveLink" class="button" target="_blank" rel="noopener">🌍 Open Live Site</a>
+    <a href="index.html" class="button ghost">🔁 Build Another</a>
+  </div>
+
+  <iframe id="previewFrame" title="Live site preview"></iframe>
+  <div class="note">Tip: use the button above for a full-tab experience.</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const liveUrl = params.get("url");
+
+    const liveLink = document.getElementById("liveLink");
+    const frame = document.getElementById("previewFrame");
+    const subtitle = document.getElementById("subtitle");
+
+    if (liveUrl) {
+      liveLink.href = liveUrl;
+      frame.src = liveUrl;
+      // gently try to open a new tab (may be blocked if not user-initiated)
+      setTimeout(() => { try { window.open(liveUrl, "_blank", "noopener"); } catch(e) {} }, 300);
+    } else {
+      subtitle.textContent = "We couldn’t find a deployment URL in the request.";
+      document.querySelector(".actions").insertAdjacentHTML("afterend",
+        `<p style="margin-top:.5rem">Return to the generator and try again.</p>`);
+    }
+  </script>
+</body>
+</html>
