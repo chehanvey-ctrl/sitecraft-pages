@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redirecting…</title>
+  <meta http-equiv="refresh" content="0; url=/index.html">
+  <style>
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    .wrap{display:flex;align-items:center;justify-content:center;height:100%;background:#0f2027;background:linear-gradient(145deg,#0f2027,#203a43,#2c5364);color:#fff;text-align:center;padding:2rem}
+    .card{max-width:520px}
+    a{color:#00d2ff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Taking you back…</h1>
+      <p>If you’re not redirected automatically, <a href="/index.html">tap here</a>.</p>
+      <script>
+        // Hard redirect for SPA-like behavior
+        window.location.replace('/index.html');
+      </script>
+    </div>
+  </div>
+</body>
+</html>
