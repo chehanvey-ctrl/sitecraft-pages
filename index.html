@@ -1,80 +1,276 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SiteCraft AI Website Generator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #00c9a7, #005b96);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    p  { font-size: 1.1rem; text-align: center; max-width: 600px; margin-bottom: 2rem; }
 
-.hero-image {
-  background-image: url("https://oaidalleapiprodscus.blob.core.windows.net/private/org-8ZGXKv5ObNNsFkj4A5DVyhdi/user-PsoBOmQAUti1kIv3b1CNlys7/img-fRrHuISHMNfknirqCE5qEvAc.png?st=2025-08-09T13%3A14%3A27Z&se=2025-08-09T15%3A14%3A27Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=8eb2c87c-0531-4dab-acb3-b5e2adddce6c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-09T08%3A18%3A45Z&ske=2025-08-10T08%3A18%3A45Z&sks=b&skv=2024-08-04&sig=XrYiXVKU9wF273xBG%2BuMAr%2BSL6DxnqAgCYXezEKqJ9s%3D");
-  height: 100vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-}
+    textarea {
+      width: 90%;
+      max-width: 600px;
+      height: 120px;
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 1rem;
+      resize: vertical;
+      background: #0b2c3a;
+      color: #eafffb;
+    }
 
-.hero-text {
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 3em;
-}
+    .btn {
+      padding: 1rem 1.4rem;
+      font-size: 1rem;
+      background-color: #00ffd5;
+      color: #00303f;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 0.5rem;
+      font-weight: bold;
+    }
+    .btn.secondary { background: #ffffff; color:#00303f; }
+    .btn:disabled    { opacity: .6; cursor: not-allowed; }
 
-section {
-  padding: 60px;
-  text-align: center;
-  border-top: 1px solid #ddd;
-  background: linear-gradient(to right, #f9f9f9 0%, #fff 100%);
-}
+    #progressBar {
+      width: 80%;
+      max-width: 500px;
+      height: 12px;
+      background-color: #00303f;
+      border-radius: 6px;
+      overflow: hidden;
+      display: none;
+      margin: 1rem 0;
+    }
+    #progressBarFill {
+      height: 100%;
+      background-color: #00ffd5;
+      width: 0%;
+      transition: width 0.3s ease-in-out;
+    }
 
-footer {
-  padding: 20px;
-  text-align: center;
-  background: #333;
-  color: #fff;
-}
-</style>
+    #output { font-size: 1rem; margin: .5rem 0 1rem; min-height: 1.25rem; }
+
+    iframe {
+      width: 90%;
+      max-width: 1100px;
+      height: 600px;
+      border: 2px solid #00ffd5;
+      border-radius: 10px;
+      background-color: #fff;
+      margin-top: 1rem;
+    }
+
+    /* Editor overlay */
+    #editorOverlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.7);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    #editorCard {
+      width: min(1100px, 95vw);
+      height: min(80vh, 800px);
+      background: #0a2a36;
+      border: 2px solid #00ffd5;
+      border-radius: 12px;
+      display: flex; flex-direction: column;
+    }
+    #editorHeader {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .75rem 1rem; background: #083041; color: #eafffb; border-bottom: 1px solid #00ffd5;
+    }
+    #editorTextarea {
+      flex: 1; width: 100%; padding: 1rem; border: none; outline: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 14px; background: #0e3d50; color: #eafffb;
+    }
+    #editorActions {
+      padding: .75rem 1rem; display:flex; gap:.5rem; justify-content: flex-end; background:#083041; border-top: 1px solid #00ffd5;
+    }
+
+    #liveLink { margin-top: 1rem; display: none; }
+    #liveLink a { color: #00ffd5; font-weight: bold; }
+  </style>
 </head>
 <body>
+  <h1>SiteCraft AI</h1>
+  <p>Describe your dream website. Built in ~60 seconds. Preview → edit → publish live.</p>
 
-<div class="hero-image">
-  <div class="hero-text">
-    <h1>Bennys Chippy</h1>
-    <p>Serving Happiness in Every Bite</p>
+  <textarea id="userInput" placeholder="Describe your website..."></textarea>
+
+  <div>
+    <button id="generateBtn" class="btn">Generate My Website</button>
+    <button id="editBtn" class="btn secondary" disabled>Edit HTML</button>
+    <button id="publishBtn" class="btn secondary" disabled>Publish Live</button>
   </div>
-</div>
 
-<section id="specials">
-  <h2>Today's Specials</h2>
-  <p>Come in and try out our delicious specials, freshly made for you.</p>
-</section>
+  <div id="progressBar"><div id="progressBarFill"></div></div>
+  <div id="output"></div>
+  <iframe id="previewFrame"></iframe>
+  <div id="liveLink"></div>
 
-<section id="story">
-  <h2>Our Story</h2>
-  <p>Discover how our family-owned chip shop has been serving up happiness for generations.</p>
-</section>
+  <!-- Editor Overlay -->
+  <div id="editorOverlay">
+    <div id="editorCard">
+      <div id="editorHeader">
+        <strong>Editor — tweak your HTML, then “Save Changes” to preview, or “Publish Live”</strong>
+        <button id="closeEditor" class="btn secondary">Close</button>
+      </div>
+      <textarea id="editorTextarea" spellcheck="false"></textarea>
+      <div id="editorActions">
+        <button id="saveEditsBtn" class="btn secondary">Save Changes</button>
+        <button id="publishEditsBtn" class="btn">Publish Live</button>
+      </div>
+    </div>
+  </div>
 
-<section id="favourites">
-  <h2>Customer Favourites</h2>
-  <p>Explore our customer favourites, from our golden crispy chips to our fresh cod.</p>
-</section>
+  <script>
+    const backendBase = "https://sitecraft-backend.onrender.com";
 
-<section id="contact">
-  <h2>Contact Us</h2>
-  <p>Have a question or want to place an order? Get in touch with us.</p>
-</section>
+    const generateBtn   = document.getElementById("generateBtn");
+    const editBtn       = document.getElementById("editBtn");
+    const publishBtn    = document.getElementById("publishBtn");
+    const userInput     = document.getElementById("userInput");
+    const outputDiv     = document.getElementById("output");
+    const previewFrame  = document.getElementById("previewFrame");
+    const liveLink      = document.getElementById("liveLink");
+    const barContainer  = document.getElementById("progressBar");
+    const barFill       = document.getElementById("progressBarFill");
 
-<footer>
-  <p>&copy; 2025 Bennys Chippy</p>
-</footer>
+    const editorOverlay   = document.getElementById("editorOverlay");
+    const editorTextarea  = document.getElementById("editorTextarea");
+    const closeEditorBtn  = document.getElementById("closeEditor");
+    const saveEditsBtn    = document.getElementById("saveEditsBtn");
+    const publishEditsBtn = document.getElementById("publishEditsBtn");
 
+    let currentHTML = "";   // last generated or edited HTML
+
+    generateBtn.addEventListener("click", async () => {
+      const prompt = userInput.value.trim();
+      if (!prompt) {
+        outputDiv.textContent = "❌ Please enter a prompt.";
+        return;
+      }
+
+      outputDiv.textContent = "Building your website...";
+      barContainer.style.display = "block";
+      barFill.style.width = "0%";
+      liveLink.style.display = "none";
+      editBtn.disabled = true;
+      publishBtn.disabled = true;
+
+      // smooth fake progress
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress < 95) {
+          progress += Math.random() * 4;
+          barFill.style.width = `${progress.toFixed(0)}%`;
+        }
+      }, 100);
+
+      try {
+        const resp = await fetch(`${backendBase}/generate-pure`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt })
+        });
+
+        clearInterval(interval);
+        barFill.style.width = "100%";
+        setTimeout(() => (barContainer.style.display = "none"), 400);
+
+        if (!resp.ok) {
+          const text = await resp.text();
+          throw new Error(`Server error ${resp.status}: ${text}`);
+        }
+        const data = await resp.json();
+        if (!data.html) throw new Error("No HTML received from backend.");
+
+        currentHTML = data.html;
+        previewFrame.srcdoc = currentHTML;
+        outputDiv.textContent = "Website generated. Preview below.";
+        editBtn.disabled = false;
+        publishBtn.disabled = false;
+      } catch (err) {
+        clearInterval(interval);
+        barContainer.style.display = "none";
+        barFill.style.width = "0%";
+        outputDiv.textContent = "❌ Error: " + err.message;
+        console.error(err);
+      }
+    });
+
+    // Open editor with currentHTML
+    editBtn.addEventListener("click", () => {
+      editorTextarea.value = currentHTML || "<!-- Nothing to edit yet -->";
+      editorOverlay.style.display = "flex";
+    });
+
+    closeEditorBtn.addEventListener("click", () => {
+      editorOverlay.style.display = "none";
+    });
+
+    // Save edits back to preview (local only)
+    saveEditsBtn.addEventListener("click", () => {
+      currentHTML = editorTextarea.value;
+      previewFrame.srcdoc = currentHTML;
+      editorOverlay.style.display = "none";
+      outputDiv.textContent = "Edits saved. Preview updated below.";
+    });
+
+    // Publish Live (edited or generated HTML) via /publish-html
+    async function publishHTML(html) {
+      outputDiv.textContent = "Publishing your site to Vercel…";
+      publishBtn.disabled = true;
+      publishEditsBtn.disabled = true;
+
+      try {
+        const resp = await fetch(`${backendBase}/publish-html`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ html })
+        });
+
+        if (!resp.ok) {
+          const text = await resp.text();
+          throw new Error(`Publish error ${resp.status}: ${text}`);
+        }
+        const data = await resp.json();
+        const url = data.live_url || data.vercel_url;
+
+        if (!url) throw new Error("No live URL returned.");
+
+        liveLink.innerHTML = `🌐 <a href="${url}" target="_blank" rel="noopener">Your live website</a>`;
+        liveLink.style.display = "block";
+        outputDiv.textContent = "✅ Published! Open your live site above.";
+      } catch (err) {
+        outputDiv.textContent = "❌ Publish failed: " + err.message;
+        console.error(err);
+      } finally {
+        publishBtn.disabled = false;
+        publishEditsBtn.disabled = false;
+      }
+    }
+
+    publishBtn.addEventListener("click", () => publishHTML(currentHTML));
+    publishEditsBtn.addEventListener("click", () => publishHTML(editorTextarea.value));
+  </script>
 </body>
 </html>
